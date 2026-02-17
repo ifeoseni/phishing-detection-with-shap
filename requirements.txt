@@ -1,3 +1,5 @@
+streamlit
+supervisor
 pandas
 httpx
 playwright
