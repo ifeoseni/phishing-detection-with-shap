@@ -1,6 +1,9 @@
 streamlit
 supervisor
 pandas
+joblib
+shap
+numpy
 httpx
 playwright
 requests
