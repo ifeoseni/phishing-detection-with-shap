@@ -4,6 +4,8 @@ pandas
 joblib
 shap
 numpy
+matplotlib
+scikit-learn
 httpx
 playwright
 requests
