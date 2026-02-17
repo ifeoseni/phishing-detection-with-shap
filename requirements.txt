@@ -6,6 +6,8 @@ shap
 numpy
 matplotlib
 scikit-learn
+xgboost
+lightgbm
 cloudscraper
 python-whois
 dnspython
