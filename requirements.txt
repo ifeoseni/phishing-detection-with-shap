@@ -9,5 +9,3 @@ beautifulsoup4
 urllib3
 aiohttp
 aiodns
-argparse
-
