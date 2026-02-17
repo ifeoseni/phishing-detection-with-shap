@@ -64,14 +64,14 @@ status_explanations = {
 def load_datasets():
     datasets = []
     try:
-        df1 = pd.read_csv('network_data_with_lexical_features/lexical_features_Mendeley_cleaned_v2.csv')
+        df1 = pd.read_csv('network_data_with_lexical_features/lexical_features_Mendeley_cleaned_v2.csv', low_memory=False)
         if 'url' in df1.columns and 'label' in df1.columns:
             df1['url'] = df1['url'].astype(str).str.strip().str.lower()
             datasets.append(df1)
     except Exception as e:
         st.warning(f"Could not load Mendeley dataset: {e}")
     try:
-        df2 = pd.read_csv('network_data_with_lexical_features/lexical_features_PhiUSIIL_cleaned_v2_.csv')
+        df2 = pd.read_csv('network_data_with_lexical_features/lexical_features_PhiUSIIL_cleaned_v2_.csv', low_memory=False)
         if 'url' in df2.columns and 'label' in df2.columns:
             df2['url'] = df2['url'].astype(str).str.strip().str.lower()
             datasets.append(df2)
