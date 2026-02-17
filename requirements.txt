@@ -6,13 +6,14 @@ shap
 numpy
 matplotlib
 scikit-learn
-httpx
-playwright
-requests
+cloudscraper
 python-whois
 dnspython
 tldextract
 beautifulsoup4
+httpx
+playwright
+requests
 urllib3
 aiohttp
 aiodns
