@@ -2,8 +2,6 @@
 
 This project implements a rigorous phishing detection system using multiple machine learning models (Random Forest, XGBoost, and Ensembles) complemented by **SHAP (SHapley Additive exPlanations)** for mathematical transparency and explainability.
 
-## 🚀 Live App
-Access the live application here: **[https://shap-phishing-detection.streamlit.app/](https://shap-phishing-detection.streamlit.app/)**
 
 ## ✨ Features
 - **Multi-Model Analysis:** Compare predictions from Random Forest, XGBoost, Weighted Ensemble, and Stacking Ensemble.
