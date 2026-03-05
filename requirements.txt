@@ -19,3 +19,5 @@ requests
 urllib3
 aiohttp
 aiodns
+lxml
+openpyxl
