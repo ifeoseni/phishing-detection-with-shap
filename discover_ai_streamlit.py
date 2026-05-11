@@ -64,14 +64,14 @@ status_explanations = {
 def load_datasets():
     datasets = []
     try:
-        df1 = pd.read_csv('network_data_with_lexical_features/lexical_features_Mendeley_cleaned_v2.csv')
+        df1 = pd.read_csv('network_data_with_lexical_features/lexical_features_Mendeley_cleaned_v2.csv', usecols=['url', 'label'], low_memory=False)
         if 'url' in df1.columns and 'label' in df1.columns:
             df1['url'] = df1['url'].astype(str).str.strip().str.lower()
             datasets.append(df1)
     except Exception as e:
         st.warning(f"Could not load Mendeley dataset: {e}")
     try:
-        df2 = pd.read_csv('network_data_with_lexical_features/lexical_features_PhiUSIIL_cleaned_v2_.csv')
+        df2 = pd.read_csv('network_data_with_lexical_features/lexical_features_PhiUSIIL_cleaned_v2_.csv', usecols=['url', 'label'], low_memory=False)
         if 'url' in df2.columns and 'label' in df2.columns:
             df2['url'] = df2['url'].astype(str).str.strip().str.lower()
             datasets.append(df2)
@@ -432,7 +432,7 @@ def show_model_explanation(exp, model_name, prob, formula=None):
         st.markdown("**Waterfall Plot**")
         fig = safe_waterfall_plot(exp, max_display=12)
         if fig:
-            st.pyplot(fig, use_container_width=True)
+            st.pyplot(fig, width='stretch')
             plt.close(fig)
         else:
             st.info("No significant feature contributions")
@@ -503,7 +503,7 @@ def show_model_explanation(exp, model_name, prob, formula=None):
                 "Raw Value": [f"{exp.data[i]:.4f}" for i in top_indices],
                 "Impact": ["🔴 Increases phishing probability" if shap_vals[i] > 0 else "🟢 Decreases phishing probability" for i in top_indices]
             })
-            st.dataframe(df_shap, use_container_width=True, hide_index=True)
+            st.dataframe(df_shap, width='stretch', hide_index=True)
         else:
             st.info("No features with |SHAP| > 0.0001")
 
@@ -664,7 +664,7 @@ if st.session_state.analysis_done:
          f"{predictions['stacking_prob']:.4%}"]
     ]
     summary_df = pd.DataFrame(summary_data, columns=["Model", "Prediction", "Probability"])
-    st.dataframe(summary_df, use_container_width=True, hide_index=True)
+    st.dataframe(summary_df, width='stretch', hide_index=True)
     
     # Meta-Learner Transparency
     with st.expander("🔍 Stacking Meta-Learner Architecture", expanded=False):
@@ -776,21 +776,22 @@ if st.session_state.analysis_done:
                 with st.expander("⚙️ Meta-Learner Level Explanation", expanded=False):
                     meta_exp = explanations.get("meta_exp")
                     if meta_exp is not None:
-                        st.markdown("**Direct explanation of meta-learner decision using base model probabilities as features**")
-                        col1, col2 = st.columns(2)
-                        with col1:
-                            st.markdown("**Meta-Learner Force Plot**")
-                            try:
-                                plt.figure(figsize=(8, 3.5))
-                                shap.plots.force(
-                                    meta_exp.base_values,
-                                    meta_exp.values,
-                                    meta_exp.data,
-                                    feature_names=meta_exp.feature_names,
-                                    matplotlib=True,
-                                    show=False
-                                )
-                                st.pyplot(plt.gcf(), use_container_width=True)
+                        if not np.allclose(meta_exp.values, 0, atol=1e-7):
+                            st.markdown("**Direct explanation of meta-learner decision using base model probabilities as features**")
+                            col1, col2 = st.columns(2)
+                            with col1:
+                                st.markdown("**Meta-Learner Force Plot**")
+                                try:
+                                    plt.figure(figsize=(8, 3.5))
+                                    shap.plots.force(
+                                        meta_exp.base_values,
+                                        meta_exp.values,
+                                        meta_exp.data,
+                                        feature_names=meta_exp.feature_names,
+                                        matplotlib=True,
+                                        show=False
+                                    )
+                                st.pyplot(plt.gcf(), width='stretch')
                                 plt.close()
                             except Exception as e:
                                 st.warning(f"Plot unavailable: {str(e)[:50]}")
