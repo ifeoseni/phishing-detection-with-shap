@@ -791,16 +791,16 @@ if st.session_state.analysis_done:
                                         matplotlib=True,
                                         show=False
                                     )
-                                st.pyplot(plt.gcf(), width='stretch')
-                                plt.close()
-                            except Exception as e:
-                                st.warning(f"Plot unavailable: {str(e)[:50]}")
-                        with col2:
-                            st.markdown("**Contribution Analysis**")
-                            base_logodds = meta_exp.base_values
-                            total_contrib = np.sum(meta_exp.values)
-                            final_logodds = base_logodds + total_contrib
-                            final_prob = sigmoid(final_logodds)
+                                    st.pyplot(plt.gcf(), width='stretch')
+                                    plt.close()
+                                except Exception as e:
+                                    st.warning(f"Plot unavailable: {str(e)[:50]}")
+                            with col2:
+                                st.markdown("**Contribution Analysis**")
+                                base_logodds = meta_exp.base_values
+                                total_contrib = np.sum(meta_exp.values)
+                                final_logodds = base_logodds + total_contrib
+                                final_prob = sigmoid(final_logodds)
                             
                             st.metric("Base Log-Odds (Training Mean)", f"{base_logodds:.6f}")
                             for i, feat in enumerate(meta_exp.feature_names):
